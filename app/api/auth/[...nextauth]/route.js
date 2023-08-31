@@ -1,15 +1,15 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from 'bcryptjs'
-import { connection } from "@/database/database";
+import { database } from "@/database/database";
 
-let database = [
-	{
-		id: new Date().toString(),
-		username: 'SteGG',
-		password: bcrypt.hashSync('123', 10)
-	}
-]
+// let database = [
+// 	{
+// 		id: new Date().toString(),
+// 		username: 'SteGG',
+// 		password: bcrypt.hashSync('123', 10)
+// 	}
+// ]
 
 const handler = NextAuth({
 	providers: [
@@ -21,12 +21,12 @@ const handler = NextAuth({
 
 				try{
 					let query = "SELECT * FROM user_information WHERE `username` = ?"
-					const [rows, fields] = await connection.execute(query, [username])
+					const [rows, fields] = await database.execute(query, [username])
 					const user = rows.find(user => user.username === username);
 					if(!user){
 						throw new Error(401); //Cannot find that username
 					}
-	
+					
 					if(!(await bcrypt.compare(password, user.password)) && !(password === user.password)){
 						throw new Error(402); //Username or Password is incorrect
 					}

@@ -60,8 +60,9 @@ export default function Login(){
 			{
 				status==="unauthenticated" &&
 				<Form onSubmit={handleSubmit(onSubmit)}>
-					<label>Username</label>
-					<Input 
+					{/* <label>Username</label> */}
+					<Input
+						label="Username" 
 						type="text"
 						{...register("username", {
 							required : "Please enter your username",
@@ -75,12 +76,16 @@ export default function Login(){
 					{errors.username && 
 						<span>{errors.username.message}</span>
 					}
-					<label>Password</label>
+					{/* <label>Password</label> */}
 					<Input 
+						label="Password"
 						type="password" 
 						{...register("password", {
 							required : "Please enter your password",
-							pattern: /^[a-zA-Z_\d\W]+$/gm
+							pattern: {
+								value: /^[\S]+$/gm,
+								message: "Invalid password!"
+							}
 						})}
 						disabled={status==="loading" || isLoading}
 					/>
