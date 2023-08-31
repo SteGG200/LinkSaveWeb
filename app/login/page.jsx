@@ -1,6 +1,7 @@
 'use client'
 
 import Form from "@/components/Form";
+import { Input } from "@/components/Input";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";
@@ -26,7 +27,6 @@ export default function Login(){
 	const router = useRouter();
 	const {data: session, status} = useSession();
 	const [authError, setAuthError] = useState(null);
-	const inputUsername = useRef(null);
 
 	const onSubmit = async (data) => {
 		const status = await signIn('credentials',{
@@ -41,7 +41,11 @@ export default function Login(){
 		}else{
 			setValue("password","");
 			setFocus("username");
-			setAuthError(errorAuthen[status.error])
+			if(errorAuthen[status.error]){
+				setAuthError(errorAuthen[status.error])
+			}else{
+				setAuthError(status.error)
+			}
 		}
 	}
 
@@ -57,7 +61,7 @@ export default function Login(){
 				status==="unauthenticated" &&
 				<Form onSubmit={handleSubmit(onSubmit)}>
 					<label>Username</label>
-					<input 
+					<Input 
 						type="text"
 						{...register("username", {
 							required : "Please enter your username",
@@ -72,7 +76,7 @@ export default function Login(){
 						<span>{errors.username.message}</span>
 					}
 					<label>Password</label>
-					<input 
+					<Input 
 						type="password" 
 						{...register("password", {
 							required : "Please enter your password",
