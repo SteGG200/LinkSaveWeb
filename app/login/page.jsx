@@ -1,5 +1,7 @@
 'use client'
 
+import ErrorMsg from "@/components/ErrorMsg";
+import Button from "@/components/Button";
 import Form from "@/components/Form";
 import { Input } from "@/components/Input";
 import { signIn, useSession } from "next-auth/react";
@@ -27,17 +29,20 @@ export default function Login(){
 	const router = useRouter();
 	const {data: session, status} = useSession();
 	const [authError, setAuthError] = useState(null);
+	const [loadingRes, setLoadingRes] = useState(false);
 
 	const onSubmit = async (data) => {
+		setLoadingRes(true);
 		const status = await signIn('credentials',{
 			redirect: false,
 			username: data.username,
 			password: data.password,
 			callbackUrl: '/'
 		});
+		setLoadingRes(false);
 		if(!status.error){
-			router.push(status.url);
 			setAuthError(null);
+			router.push(status.url);
 		}else{
 			setValue("password","");
 			setFocus("username");
@@ -56,46 +61,66 @@ export default function Login(){
 	})
 
 	return(
-		<div>
+		<div className="w-full py-8">
 			{
 				status==="unauthenticated" &&
-				<Form onSubmit={handleSubmit(onSubmit)}>
-					{/* <label>Username</label> */}
-					<Input
-						label="Username" 
-						type="text"
-						{...register("username", {
-							required : "Please enter your username",
-							pattern: {
-								value: /^[a-zA-Z\w]+$/gm,
-								message: "Invalid username!"
+				<Form 
+					onSubmit={handleSubmit(onSubmit)}
+				>
+					<div className="mb-2">
+						<p className="text-2xl sm:text-3xl robocon">Log In</p>
+					</div>
+					<div className="pt-2 space-y-4">
+						{/* <label>Username</label> */}
+						<div>
+							<Input
+								label="Username" 
+								type="text"
+								placeholder="Enter your username"
+								{...register("username", {
+									required : "Please enter your username",
+									pattern: {
+										value: /^[a-zA-Z\w]+$/gm,
+										message: "Invalid username!"
+									}
+								})}
+								disabled={isLoading || status === "loading" || loadingRes}
+								invalid={errors.username ? "true" : "false"}
+							/>
+							{errors.username && 
+								<ErrorMsg>{errors.username.message}</ErrorMsg>
 							}
-						})}
-						disabled={status==="loading" || isLoading}
-					/>
-					{errors.username && 
-						<span>{errors.username.message}</span>
-					}
-					{/* <label>Password</label> */}
-					<Input 
-						label="Password"
-						type="password" 
-						{...register("password", {
-							required : "Please enter your password",
-							pattern: {
-								value: /^[\S]+$/gm,
-								message: "Invalid password!"
+						</div>
+
+						{/* <label>Password</label> */}
+						<div>
+							<Input
+								label="Password"
+								type="password" 
+								placeholder="Enter your password"
+								{...register("password", {
+									required : "Please enter your password",
+									pattern: {
+										value: /^[\S]+$/gm,
+										message: "Invalid password!"
+									}
+								})}
+								disabled={isLoading || status === "loading" || loadingRes}
+								invalid={errors.password ? "true" : "false"}
+							/>
+							{errors.password &&
+								<ErrorMsg>{errors.password.message}</ErrorMsg>
 							}
-						})}
-						disabled={status==="loading" || isLoading}
-					/>
-					{errors.password &&
-						<span>{errors.password.message}</span>
-					}
-					{(authError && !errors.password && !errors.username) && 
-						<span>{authError}</span>
-					}
-					<button type="submit" disabled={status==="loading" || isLoading}>Submit</button>
+							{(authError && !errors.password && !errors.username) && 
+								<ErrorMsg>{authError}</ErrorMsg>
+							}
+						</div>
+						<div>
+							<Button type="submit" disabled={isLoading || status === "loading" || loadingRes}>
+								Log in
+							</Button>
+						</div>
+					</div>
 				</Form>
 			}
 		</div>
