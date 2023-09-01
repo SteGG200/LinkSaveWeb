@@ -6,5 +6,5 @@ export const database = await mysql.createConnection({
 	password: process.env.DATABASE_PASSWORD || process.env.LOCAL_DB_PASSWORD,
 	port: process.env.DATABASE_PORT,
 	multipleStatements: false,
-	database: 'linksave'
+	database: process.env.DATABASE_NAME
 })
