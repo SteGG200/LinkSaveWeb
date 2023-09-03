@@ -3,7 +3,7 @@
 import ErrorMsg from "@/components/ErrorMsg";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
-import { Input } from "@/components/Input";
+import Input from "@/components/Input";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";

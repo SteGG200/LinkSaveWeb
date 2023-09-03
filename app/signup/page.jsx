@@ -3,7 +3,7 @@
 import Button from "@/components/Button"
 import ErrorMsg from "@/components/ErrorMsg"
 import Form from "@/components/Form"
-import { Input } from "@/components/Input"
+import Input from "@/components/Input"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"

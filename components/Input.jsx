@@ -1,6 +1,6 @@
 import { forwardRef } from "react"
 
-export const Input = forwardRef((props, ref) => {
+const Input = forwardRef((props, ref) => {
 	return (
 		<div>
 			{
@@ -24,3 +24,7 @@ export const Input = forwardRef((props, ref) => {
 		</div>
 	)
 })
+
+Input.displayName = 'Input'
+
+export default Input;
