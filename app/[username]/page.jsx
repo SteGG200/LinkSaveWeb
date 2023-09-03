@@ -59,7 +59,7 @@ export default function Profile({ params }) {
 				}
 			})()
 		}
-	})
+	},[status])
 
 	const insertLink = async (data) => {
 		setLoadingRes(true);
@@ -82,7 +82,10 @@ export default function Profile({ params }) {
 		if (result.ok) {
 			setErrdb(null);
 			setValue("url");
-			setValue("title")
+			setValue("title");
+			const response = await fetch(`/api/${session.user.name}`);
+			const result = await response.json();
+			setProfileLink(result);
 		} else {
 			if (result.error === "1062") {
 				setErrdb('You have already added this link!')
@@ -112,6 +115,10 @@ export default function Profile({ params }) {
 			} else {
 				alert(result.error);
 			}
+		}else{
+			const response = await fetch(`/api/${session.user.name}`);
+			const result = await response.json();
+			setProfileLink(result);
 		}
 
 		setLoadingRes(false);
