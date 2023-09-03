@@ -4,6 +4,7 @@ import ErrorMsg from "@/components/ErrorMsg";
 import Button from "@/components/Button";
 import Form from "@/components/Form";
 import Input from "@/components/Input";
+import WarningAlert from "@/components/WarningAlert";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -13,20 +14,6 @@ import LinkItem from "@/components/LinkItem";
 
 function isAuthenticatedByUser(session, username) {
 	return session.user.name === username;
-}
-
-function WarningAlert({ message, callback }) {
-	return (
-		<div>
-			<span>{message}</span>
-			<button onClick={() => {
-				sessionStorage.setItem('warning', 0);
-				callback(sessionStorage.getItem('warning') === '1');
-			}}>
-				x
-			</button>
-		</div>
-	)
 }
 
 export default function Profile({ params }) {
