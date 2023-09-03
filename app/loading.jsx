@@ -1,5 +1,5 @@
 export default function Loading(){
 	return(
-		<span>Loading...</span>
+		<p className="text-center text-xl">Loading...</p>
 	)
 }
