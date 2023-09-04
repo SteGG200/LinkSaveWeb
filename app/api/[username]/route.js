@@ -75,7 +75,7 @@ export async function DELETE(req, {params}){
 			throw new Error("Cannot find user name profile")
 		}
 
-		const link_data = JSON.parse(link_data);
+		const link_data = JSON.parse(profile.link);
 
 		const index = data.id;
 		if(JSON.stringify(link_data.links[index]) !== JSON.stringify(data)){
