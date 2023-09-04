@@ -13,9 +13,9 @@ export async function GET(req, {params}){
 			await database.execute("INSERT INTO `user_profile` (`name`, `link`) VALUES (?, ?)", [params.username, newdata])
 			return NextResponse.json(newdata)
 		}
-		const data = profile.link
+		const link_data = JSON.parse(profile.link)
 	
-		return NextResponse.json(data)
+		return NextResponse.json(link_data)
 	}catch(error){
 		return NextResponse.json({error : error.message})
 	}
@@ -32,10 +32,12 @@ export async function POST(req, {params}){
 			throw new Error("Cannot find user name profile")
 		}
 
+		const link_data = JSON.parse(profile.link)
+
 		let isexist = false;
 
-		for(let i = 0; i < profile.link.links.length; i++){
-			if(profile.link.links[i].url === data.url){
+		for(let i = 0; i < link_data.links.length; i++){
+			if(link_data.links[i].url === data.url){
 				isexist = true;
 				break;
 			}
@@ -47,7 +49,7 @@ export async function POST(req, {params}){
 
 		const newprofile = {
 			links: [
-				...profile.link.links,
+				...link_data.links,
 				data
 			]
 		}
@@ -73,12 +75,14 @@ export async function DELETE(req, {params}){
 			throw new Error("Cannot find user name profile")
 		}
 
+		const link_data = JSON.parse(link_data);
+
 		const index = data.id;
-		if(JSON.stringify(profile.link.links[index]) !== JSON.stringify(data)){
+		if(JSON.stringify(link_data.links[index]) !== JSON.stringify(data)){
 			throw new Error("404");
 		}
 
-		const newprofile = profile.link;
+		const newprofile = link_data;
 		// console.log(newprofile.links);
 		newprofile.links.splice(index, 1);
 		// console.log(newprofile.links);
