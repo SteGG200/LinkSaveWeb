@@ -139,7 +139,8 @@ export default function Profile({ params }) {
 					<p className="font-mono text-3xl sm:text-4xl text-center">Profile of <span className="font-bold text-green-600">{params.username}</span></p>
 					<Form
 						className="flex flex-col p-6 w-1/2 max-lg:w-2/3 max-md:w-4/5 border-2 border-slate-400 border rounded-md"
-						onSubmit={handleSubmit(insertLink)}>
+						onSubmit={handleSubmit(insertLink)}
+					>
 						<div className="mb-2">
 							<p className="text-2xl sm:text-3xl robocon">Add new link</p>
 						</div>
