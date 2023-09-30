@@ -56,8 +56,8 @@ export async function POST(req, {params}){
 
 		// console.log(newprofile);
 
-		query = "UPDATE user_profile SET link = ? WHERE name = ?"
-		await database.execute(query, [newprofile, name])
+		query = "UPDATE user_profile SET link = ? WHERE name = ?";
+		await database.execute(query, [JSON.stringify(newprofile), name])
 		return NextResponse.json({ok: true})
 	}catch(error){
 		return NextResponse.json({error : error.message});

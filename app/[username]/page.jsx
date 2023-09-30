@@ -64,7 +64,13 @@ export default function Profile({ params }) {
 	const insertLink = async (data) => {
 		setLoadingRes(true);
 		if (!data.title) {
-			data.title = data.url
+			const response = await fetch(`/api/urlTitle/?url=${data.url}`);
+			const { title } = await response.json();
+			if(!title){
+				data.title = data.url;
+			}else{
+				data.title = title;
+			}
 		}
 		data.id = profileLink.links.length;
 		const status = await fetch(`/api/${session.user.name}`, {
