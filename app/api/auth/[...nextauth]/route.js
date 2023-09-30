@@ -30,6 +30,8 @@ const handler = NextAuth({
 					if(!(await bcrypt.compare(password, user.password)) && !(password === user.password)){
 						throw new Error(402); //Username or Password is incorrect
 					}
+
+					// database.end();
 	
 					return {
 						id: user.id,

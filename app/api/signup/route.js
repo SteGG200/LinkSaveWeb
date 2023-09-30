@@ -13,6 +13,8 @@ export async function POST(request){
 		let query = "INSERT INTO `user_information` (`id`, `username`, `password`) VALUES (?, ?, ?);"
 		await database.execute(query, [id, username, hashedPassword]);
 
+		// database.end();
+
 		return NextResponse.json({ok: true})
 	}catch(error){
 		return NextResponse.json({error});

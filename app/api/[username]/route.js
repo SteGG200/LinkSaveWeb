@@ -13,7 +13,9 @@ export async function GET(req, {params}){
 			await database.execute("INSERT INTO `user_profile` (`name`, `link`) VALUES (?, ?)", [params.username, newdata])
 			return NextResponse.json(newdata)
 		}
-		const link_data = JSON.parse(profile.link)
+		const link_data = JSON.parse(profile.link);
+
+		// database.end();
 	
 		return NextResponse.json(link_data)
 	}catch(error){
@@ -57,7 +59,10 @@ export async function POST(req, {params}){
 		// console.log(newprofile);
 
 		query = "UPDATE user_profile SET link = ? WHERE name = ?";
-		await database.execute(query, [JSON.stringify(newprofile), name])
+		await database.execute(query, [JSON.stringify(newprofile), name]);
+
+		// database.end();
+
 		return NextResponse.json({ok: true})
 	}catch(error){
 		return NextResponse.json({error : error.message});
@@ -92,7 +97,10 @@ export async function DELETE(req, {params}){
 		}
 
 		query = "UPDATE user_profile SET link = ? WHERE name = ?"
-		await database.execute(query, [newprofile, name])
+		await database.execute(query, [newprofile, name]);
+
+		// database.end();
+
 		return NextResponse.json({ok: true})
 	}catch(error){
 		return NextResponse.json({error : error.message});
