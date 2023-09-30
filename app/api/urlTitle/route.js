@@ -22,4 +22,4 @@ export async function GET(req){
 
 }
 
-export const dynamic = 'auto'
+export const dynamic = 'force-dynamic'
