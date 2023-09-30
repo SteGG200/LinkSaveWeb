@@ -11,7 +11,8 @@ function getTitle(body){
 
 export async function GET(req){
 	try{
-		const url = req.nextUrl.searchParams.get('url');
+		const {searchParams} = new URL(req.url);
+		const url = searchParams.get('url')
 		const response = await fetch(url);
 		const body = await response.text();
 		const title = getTitle(body);
