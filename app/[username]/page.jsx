@@ -64,8 +64,10 @@ export default function Profile({ params }) {
 	const insertLink = async (data) => {
 		setLoadingRes(true);
 		if (!data.title) {
-			const response = await fetch(`/api/urlTitle/?url=${data.url}`);
-			const { title } = await response.json();
+			const response_url = await fetch(`/api/urlTitle/?url=${data.url}`);
+			const result_url = await response_url.json();
+			const title = result_url.title;
+			console.log(result_url);
 			if(!title){
 				data.title = data.url;
 			}else{
